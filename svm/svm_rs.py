@@ -73,7 +73,7 @@ m = svm_train(train_Y, train_X, '-t 0')
 #m = svm_train(train_data_target, train_data_features, '-t 0 -v 5') #cross validation k=5
 p_labels, p_acc, p_vals = svm_predict(test_Y, test_X, m)
 
-f=open('svm_rs_output.csv','w');
+f=open('svm_rs_output_polynomial.csv','w');
 for i in xrange(len(p_labels)):
     f.write(str(p_labels[i]));
     f.write("\n");
@@ -83,6 +83,7 @@ f.close();
 m2 = svm_train(train_Y, train_X, '-t 1')
 #m2 = svm_train(train_data_target, train_data_features, '-t 1 -v 10') #cross validation
 p_labels, p_acc, p_vals = svm_predict(test_Y, test_X,m2)
+#90.649% (2598/2866) (classification)
 
 #radial/gaussian
 m3 = svm_train(train_Y, train_X, '-t 2')
