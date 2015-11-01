@@ -48,39 +48,50 @@ def calc_results(svc_):
 #note: svm_train(<class_values>, <features>)
 
 #%% Data
+train_X=[]
+for line in open('../../train_data_X.csv').readlines():
+    train_X.append(map(float,line.strip().split(" ")));
 
-with open('../../train1_X.csv') as csvfile:
-    reader = csv.DictReader(csvfile)
-            
-        
+train_Y=[]
+for line in open('../../train_data_Y.csv').readlines():
+    train_Y.append(map(float,line.strip().split(" "))[0]);
 
+test_X=[]
+for line in open('../../test_data_X.csv').readlines():
+    test_X.append(map(float,line.strip().split(" ")));
 
+test_Y=[]
+for line in open('../../test_data_Y.csv').readlines():
+    test_Y.append(map(float,line.strip().split(" "))[0]);
+## data acquired     
+#%%
+len(train_Y[0])    
+    
 #%%
 #linear
-m = svm_train(train_data_target, train_data_features, '-t 0')
+m = svm_train(train_Y, train_X, '-t 0')
 #m = svm_train(train_data_target, train_data_features, '-t 0 -v 5') #cross validation k=5
-svm_save_model('svm_linear.model',m)
-p_labels, p_acc, p_vals = svm_predict(test_data_target, test_data_features,m)
+p_labels, p_acc, p_vals = svm_predict(test_Y, test_X, m)
+
+f=open('svm_rs_output.csv','w');
+for i in xrange(len(p_labels)):
+    f.write(str(p_labels[i]));
+    f.write("\n");
+f.close();
 
 #polynomial
-m2 = svm_train(train_data_target, train_data_features, '-t 1')
+m2 = svm_train(train_Y, train_X, '-t 1')
 #m2 = svm_train(train_data_target, train_data_features, '-t 1 -v 10') #cross validation
-svm_save_model('svm_polynomial.model',m2)
-p_labels, p_acc, p_vals = svm_predict(test_data_target, test_data_features,m2)
-#Cross Validation Accuracy = 63.1213%, k=10
-#Accuracy = 70% (56/80) (classification)
+p_labels, p_acc, p_vals = svm_predict(test_Y, test_X,m2)
 
 #radial/gaussian
-m3 = svm_train(train_data_target, train_data_features, '-t 2')
+m3 = svm_train(train_Y, train_X, '-t 2')
 #m3 = svm_train(train_data_target, train_data_features, '-t 2 -v 10')
-svm_save_model('svm_radial.model',m3)
-p_labels, p_acc, p_vals = svm_predict(test_data_target, test_data_features,m3)
+p_labels, p_acc, p_vals = svm_predict(test_Y, test_X,m3)
 
 #sigmoid
-m4 = svm_train(train_data_target, train_data_features, '-t 3')
-svm_save_model('svm_sigmoid.model',m4)
-p_labels, p_acc, p_vals = svm_predict(test_data_target, test_data_features,m4)
-#Accuracy = 25% (20/80) (classification)
+m4 = svm_train(train_Y, train_X, '-t 3')
+p_labels, p_acc, p_vals = svm_predict(test_Y, test_X,m4)
 
 '''
 #Linear SVC
