@@ -41,3 +41,10 @@ for i in xrange(len(final)):
 
 accuracy_score(test_Y, final)
 #0.91660851360781581
+
+#%% write to file
+f=open('final_output.csv','w');
+for i in xrange(len(final)):
+    f.write(str(final[i]));
+    f.write("\n");
+f.close();
