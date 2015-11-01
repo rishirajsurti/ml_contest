@@ -22,10 +22,10 @@ train_data_Y = train_data[,2049];
 test_data_X = test_data[,-1];
 test_data_Y = test_data[,2049];
 
-write.csv(train_data_X, '../train_data_X.csv', row.names=FALSE);
-write.csv(test_data_X, '../test_data_X.csv', row.names=FALSE);
-write.csv(train_data_Y, '../train_data_Y.csv', row.names=FALSE);
-write.csv(test_data_Y, '../test_data_Y.csv', row.names=FALSE);
+write.table(train_data_X, '../train_data_X.csv', row.names=FALSE, col.names=FALSE);
+write.table(test_data_X, '../test_data_X.csv', row.names=FALSE, col.names=FALSE);
+write.table(train_data_Y, '../train_data_Y.csv', row.names=FALSE, col.names=FALSE);
+write.table(test_data_Y, '../test_data_Y.csv', row.names=FALSE, col.names=FALSE);
 
 # split into 10 for cross validation.
 #run following lines 10 times to generate 10 sets
@@ -35,5 +35,5 @@ samp = sort(sample(c(1:14332), round(0.2*14332), replace=F))
 train_data = complete_data[samp,];
 train_data_X = train_data[,-1];
 train_data_Y = train_data[,2049];
-write.csv(train_data_X, '../train10_X.csv', row.names=FALSE)
-write.csv(train_data_Y, '../train10_Y.csv', row.names=FALSE)
+write.table(train_data_X, '../train1_X.csv', row.names=FALSE, col.names=FALSE)
+write.table(train_data_Y, '../train1_Y.csv', row.names=FALSE, col.names=FALSE)
