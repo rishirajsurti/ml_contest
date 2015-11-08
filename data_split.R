@@ -9,6 +9,8 @@ dim(data) #14332, 2048
 View(data[,1])
 
 complete_data = cbind(data, target)
+
+write.table(complete_data, '../complete_data.csv', row.names=FALSE, col.names=FALSE);
 View(complete_data[,2049])
 
 #split into two: train-test
