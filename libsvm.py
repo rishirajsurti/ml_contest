@@ -19,15 +19,18 @@ from sklearn.cross_validation import KFold
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
 mydata=[]
-with open('train1_X.csv', 'rb') as f:
+import os
+os.chdir('/home/rishiraj/cs5011/contest/ml_contest/')
+#%%
+with open('../train1_X.csv', 'rb') as f:
     c=csv.reader(f, delimiter=' ', quotechar=' ')
     for row in c:
         mydata.append(map(float,row))  
 
 x_=np.array(mydata) 
-
+#%%
 mydata=[]
-with open('train1_Y.csv', 'rb') as f:
+with open('../train1_Y.csv', 'rb') as f:
     c=csv.reader(f, delimiter=' ', quotechar=' ')
     for row in c:
         mydata.append(map(float,row))  
@@ -35,7 +38,7 @@ with open('train1_Y.csv', 'rb') as f:
 y_=np.array(mydata) 
 
 mydata=[]
-with open('test_data_X.csv', 'rb') as f:
+with open('../test_data_X.csv', 'rb') as f:
     c=csv.reader(f, delimiter=' ', quotechar=' ')
     for row in c:
         mydata.append(map(float,row))  
@@ -43,7 +46,7 @@ with open('test_data_X.csv', 'rb') as f:
 x_test=np.array(mydata) 
 
 mydata=[]
-with open('test_data_Y.csv', 'rb') as f:
+with open('../test_data_Y.csv', 'rb') as f:
     c=csv.reader(f, delimiter=' ', quotechar=' ')
     for row in c:
         mydata.append(map(float,row)) 
@@ -52,7 +55,7 @@ y_test=np.array(mydata)
 
 
 
-
+#%%
 x_train = preprocessing.scale(x_)
 rows = len(y_)
 y_train = preprocessing.scale(y_)
