@@ -19,20 +19,17 @@ os.chdir('/home/rishiraj/cs5011/contest/ml_contest/bayes')
 
 #%% Data
 train_X=[]
-for line in open('../../train_data_X.csv').readlines():
+for line in open('../../train_X.csv').readlines():
     train_X.append(map(float,line.strip().split(" ")));
 
 train_Y=[]
-for line in open('../../train_data_Y.csv').readlines():
+for line in open('../../train_Y.csv').readlines():
     train_Y.append(map(float,line.strip().split(" "))[0]);
 
 test_X=[]
-for line in open('../../test_data_X.csv').readlines():
+for line in open('../../test_X.csv').readlines():
     test_X.append(map(float,line.strip().split(" ")));
 
-test_Y=[]
-for line in open('../../test_data_Y.csv').readlines():
-    test_Y.append(map(float,line.strip().split(" "))[0]);
 
 ## data acquired     
 #%%

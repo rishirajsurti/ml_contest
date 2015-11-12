@@ -185,158 +185,64 @@ class NN:
                 print 'error %-14f' % error
 
 
-#%% Reading Data
+#%% Data
+train_X=[]
+for line in open('../../train_X.csv').readlines():
+    train_X.append(map(float,line.strip().split(",")));
 
-coast_train = glob.glob("../data/DS4/coast/Train/*.jpg") 
-#contains list of all paths of all images in coast/Train/ folder
+train_Y=[]
+for line in open('../../train_Y.csv').readlines():
+    train_Y.append(map(float,line.strip().split(","))[0]);
 
-forest_train = glob.glob("../data/DS4/forest/Train/*.jpg")
-insidecity_train = glob.glob("../data/DS4/insidecity/Train/*.jpg")
-mountain_train = glob.glob("../data/DS4/mountain/Train/*.jpg")
-
-coast_test = glob.glob("../data/DS4/coast/Test/*.jpg")
-forest_test = glob.glob("../data/DS4/forest/Test/*.jpg")
-insidecity_test = glob.glob("../data/DS4/insidecity/Test/*.jpg")
-mountain_test = glob.glob("../data/DS4/mountain/Test/*.jpg")
-
-train = [coast_train, forest_train, insidecity_train, mountain_train];
-test = [coast_test, forest_test, insidecity_test, mountain_test];
-
-train_data_list=[];
-
-
-
-def read_images(y, class_value):
-    fc=[]
-    for i in range(0,len(y)): #for all image paths in (e.g. coast_train)
-        rgb_image = imread(y[i]);   #read image from path
-        f1 = cv2.calcHist([rgb_image],[0], None, [32],[0,256]);
-        #calc Histogram of image [rgb_image], channel [0], masking 'None', bins [32], range [0,256];         
-        f1 = f1.astype('int');        
-        f2 = cv2.calcHist([rgb_image],[1], None, [32],[0,256])
-        f2 = f2.astype('int');        
-        f3 = cv2.calcHist([rgb_image],[2], None, [32],[0,256])
-        f3 = f3.astype('int');
-        f = numpy.vstack((f1,f2,f3)).T;
-        #f contains 96D vector for particular image        
-        fc.append(f);   #append to list
-    
-    #make a matrix out of 96D vectors generated above
-    fc_data=fc[0];
-    for j in range(1,len(fc)):
-        fc_data = numpy.vstack((fc_data,fc[j])); # stack vertically
-    
-    #fc is <no. of images> x <96> dimension matrix
-    
-    c = numpy.repeat(class_value, len(y)); #class vector
-    c = c.reshape((len(y),1)); #to make it column vector
-    
-    fc_train = numpy.hstack((fc_data,c)) #data for one particular class
-    train_data_list.append(fc_train);    #append so that it can be stacked later
-
-
-##read training images
-for j in range(0,len(train)):    
-    read_images(train[j], 1+j);
-
-#stack the data for different classes    
-train_data = train_data_list[0];
-for k in range(1, len(train_data_list)):
-    train_data = numpy.vstack((train_data, train_data_list[k]))
-
-##test data
-train_data_list=[]; #used in read_images();
-
-for j in range(0,len(test)):    
-    read_images(test[j], 1+j);
-
-test_data = train_data_list[0];
-
-for k in range(1, len(train_data_list)):
-    test_data = numpy.vstack((test_data, train_data_list[k]))
-
-##reading images done
-
-#%%
-#seperate into features and target
-train_data_features = train_data[:,:-1];
-train_data_target = train_data[:,-1];
-
-test_data_features = test_data[:,:-1];
-test_data_target = test_data[:,-1];
-
-train_data_features = train_data_features.tolist();
-train_data_target = train_data_target.tolist();
-test_data_features = test_data_features.tolist();
-test_data_target = test_data_target.tolist();
-train_data = train_data.tolist();
-test_data = test_data.tolist();
-
-#train_data_target has classes as 1,2,3,4, uses one output neuron
-#modify to four output neurons by using identity function
-train_data_target_i=[];
-for i in xrange(len(train_data_target)):
-    if(train_data_target[i]==1):
-        train_data_target_i.append([1,0,0,0]);
-    elif(train_data_target[i]==2):
-        train_data_target_i.append([0,1,0,0]);
-    elif(train_data_target[i]==3):
-        train_data_target_i.append([0,0,1,0]);
-    elif(train_data_target[i]==4):
-        train_data_target_i.append([0,0,0,1]);
-
-train_data_target_i
-
-test_data_target_i=[];
-for i in xrange(len(test_data_target)):
-    if(test_data_target[i]==1):
-        test_data_target_i.append([1,0,0,0]);
-    elif(test_data_target[i]==2):
-        test_data_target_i.append([0,1,0,0]);
-    elif(test_data_target[i]==3):
-        test_data_target_i.append([0,0,1,0]);
-    elif(test_data_target[i]==4):
-        test_data_target_i.append([0,0,0,1]);
-
-test_data_target_i
-
+test_X=[]
+for line in open('../../test_X.csv').readlines():
+    test_X.append(map(float,line.strip().split(",")));
+'''
+test_Y=[]
+for line in open('../../test_data_Y.csv').readlines():
+    test_Y.append(map(float,line.strip().split(" "))[0]);
+## data acquired     
+'''
 #%% normalize the features
 # zero mean, unit variance
-train_data_features_n = train_data_features;
+#train_data_features_n = train_data_features;
+train_X_n = train_X
 dummy = [];
 
-for j in xrange(96):
+for j in xrange(2048):
     dummy = [];
-    for i in xrange(len(train_data_features)):
-        dummy.append(train_data_features[i][j]);
+    for i in xrange(len(train_X)):
+        dummy.append(train_X[i][j]);
     
     m = numpy.mean(dummy);
     sd = numpy.std(dummy);
-    for i in xrange(len(train_data_features)):
-        train_data_features_n[i][j] = ((train_data_features[i][j]-m)/sd) ;
+
+    for i in xrange(len(train_X)):
+        train_X_n[i][j] = (float)((train_X[i][j]-m)/1+sd) ;
 
 #test data
-test_data_features_n = test_data_features;
 
-for j in xrange(96):
+test_X_n = test_X
+dummy = [];
+
+for j in xrange(2048):
     dummy = [];
-    for i in xrange(len(test_data_features)):
-        dummy.append(test_data_features[i][j]);
+    for i in xrange(len(test_X)):
+        dummy.append(test_X[i][j]);
     
     m = numpy.mean(dummy);
     sd = numpy.std(dummy);
-    for i in xrange(len(test_data_features)):
-        test_data_features_n[i][j] = ((test_data_features[i][j]-m)/sd) ;
-
+    for i in xrange(len(test_X)):
+        test_X_n[i][j] = ((test_X[i][j]-m)/1+sd) ;
 
 #%%
 
-n = NN(96, 96, 4);
+n = NN(2048, 2048, 100);
 
 # train it with some patterns then test it.
 #pattern, iterations, Learning rate
-n.train(train_data_features_n, train_data_target_i, 125, 0.5);
-n.test(test_data_features_n, verbose = True);
+n.train(train_X_n, train_Y, 100, 0.5);
+n.test(test_X_n, verbose = True);
 
 n.weights(); #print weights
 #%% 

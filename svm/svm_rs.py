@@ -59,41 +59,73 @@ for line in open('../../train_Y.csv').readlines():
 test_X=[]
 for line in open('../../test_X.csv').readlines():
     test_X.append(map(float,line.strip().split(",")));
-
+'''
 test_Y=[]
 for line in open('../../test_data_Y.csv').readlines():
     test_Y.append(map(float,line.strip().split(" "))[0]);
 ## data acquired     
-#%%
-len(train_Y[0])    
+'''
+#%% normalize the features
+# zero mean, unit variance
+#train_data_features_n = train_data_features;
+train_X_n = train_X
+dummy = [];
+
+for j in xrange(2048):
+    dummy = [];
+    for i in xrange(len(train_X)):
+        dummy.append(train_X[i][j]);
     
-#%%
+    m = numpy.mean(dummy);
+    sd = numpy.std(dummy);
+
+    for i in xrange(len(train_X)):
+        train_X_n[i][j] = (float)((train_X[i][j]-m)/1+sd) ;
+
+#test data
+
+test_X_n = test_X
+dummy = [];
+
+for j in xrange(2048):
+    dummy = [];
+    for i in xrange(len(test_X)):
+        dummy.append(test_X[i][j]);
+    
+    m = numpy.mean(dummy);
+    sd = numpy.std(dummy);
+    for i in xrange(len(test_X)):
+        test_X_n[i][j] = ((test_X[i][j]-m)/1+sd) ;
+
+#%%    
 #linear
-m = svm_train(train_Y, train_X, '-t 0')
+m = svm_train(train_Y, train_X_n, '-t 0')
 #m = svm_train(train_data_target, train_data_features, '-t 0 -v 5') #cross validation k=5
 #p_labels, p_acc, p_vals = svm_predict(test_Y, test_X, m)
 p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X, m)
 
-f=open('svm_rs_output_polynomial_final.txt','w');
-for i in xrange(len(p_labels)):
-    f.write(str(int(p_labels[i])));
-    f.write("\n");
-f.close();
-
 #polynomial
-m2 = svm_train(train_Y, train_X, '-t 1')
+m2 = svm_train(train_Y, train_X_n, '-t 1')
 #m2 = svm_train(train_data_target, train_data_features, '-t 1 -v 10') #cross validation
 p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X,m2)
 #90.649% (2598/2866) (classification)
 
 #radial/gaussian
-m3 = svm_train(train_Y, train_X, '-t 2')
+m3 = svm_train(train_Y, train_X_n, '-t 2')
 #m3 = svm_train(train_data_target, train_data_features, '-t 2 -v 10')
-p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X,m3)
+p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m3)
 
 #sigmoid
-m4 = svm_train(train_Y, train_X, '-t 3')
-p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X,m4)
+m4 = svm_train(train_Y, train_X_n, '-t 3')
+p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X, m4)
+
+
+#%% write to file
+f=open('svm_rs_output_signmoid.csv','w');
+for i in xrange(len(p_labels)):
+    f.write(str(int(p_labels[i])));
+    f.write("\n");
+f.close();
 
 '''
 #Linear SVC
