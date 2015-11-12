@@ -17,11 +17,11 @@ os.chdir('/home/rishiraj/cs5011/contest/ml_contest/');
 def most_common(lst):
     return max(set(lst), key=lst.count);
     
-files = ['svm/svm_rs_output_gaussian.csv','svm/svm_rs_output_polynomial.csv', 'bayes/bayes_rs_output.csv', '] # add your files here;
-
+files = ['svm/svm_rs_output_gaussian.csv','svm/svm_rs_output_sigmoid.csv', 'bayes/bayes_rs_output_bernoulli.csv', 'bayes/bayes_rs_output_multinomial.csv'] # add your files here;
+#,'svm/svm_rs_output_polynomial.csv'
 
 test_X=[]
-for line in open('../../test_X.csv').readlines():
+for line in open('../test_X.csv').readlines():
     test_X.append(map(float,line.strip().split(",")));
     
 final = np.zeros(len(test_X));

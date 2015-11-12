@@ -218,7 +218,7 @@ for j in xrange(2048):
     sd = numpy.std(dummy);
 
     for i in xrange(len(train_X)):
-        train_X_n[i][j] = (float)((train_X[i][j]-m)/1+sd) ;
+        train_X_n[i][j] = (float)((train_X[i][j]-m)/(1+sd)) ;
 
 #test data
 
@@ -233,7 +233,7 @@ for j in xrange(2048):
     m = numpy.mean(dummy);
     sd = numpy.std(dummy);
     for i in xrange(len(test_X)):
-        test_X_n[i][j] = ((test_X[i][j]-m)/1+sd) ;
+        test_X_n[i][j] = ((test_X[i][j]-m)/(1+sd)) ;
 
 #%%
 
