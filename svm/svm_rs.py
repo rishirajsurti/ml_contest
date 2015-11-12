@@ -49,16 +49,16 @@ def calc_results(svc_):
 
 #%% Data
 train_X=[]
-for line in open('../../train_data_X.csv').readlines():
-    train_X.append(map(float,line.strip().split(" ")));
+for line in open('../../train_X.csv').readlines():
+    train_X.append(map(float,line.strip().split(",")));
 
 train_Y=[]
-for line in open('../../train_data_Y.csv').readlines():
-    train_Y.append(map(float,line.strip().split(" "))[0]);
+for line in open('../../train_Y.csv').readlines():
+    train_Y.append(map(float,line.strip().split(","))[0]);
 
 test_X=[]
-for line in open('../../test_data_X.csv').readlines():
-    test_X.append(map(float,line.strip().split(" ")));
+for line in open('../../test_X.csv').readlines():
+    test_X.append(map(float,line.strip().split(",")));
 
 test_Y=[]
 for line in open('../../test_data_Y.csv').readlines():
@@ -71,28 +71,29 @@ len(train_Y[0])
 #linear
 m = svm_train(train_Y, train_X, '-t 0')
 #m = svm_train(train_data_target, train_data_features, '-t 0 -v 5') #cross validation k=5
-p_labels, p_acc, p_vals = svm_predict(test_Y, test_X, m)
+#p_labels, p_acc, p_vals = svm_predict(test_Y, test_X, m)
+p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X, m)
 
-f=open('svm_rs_output_polynomial.csv','w');
+f=open('svm_rs_output_polynomial_final.txt','w');
 for i in xrange(len(p_labels)):
-    f.write(str(p_labels[i]));
+    f.write(str(int(p_labels[i])));
     f.write("\n");
 f.close();
 
 #polynomial
 m2 = svm_train(train_Y, train_X, '-t 1')
 #m2 = svm_train(train_data_target, train_data_features, '-t 1 -v 10') #cross validation
-p_labels, p_acc, p_vals = svm_predict(test_Y, test_X,m2)
+p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X,m2)
 #90.649% (2598/2866) (classification)
 
 #radial/gaussian
 m3 = svm_train(train_Y, train_X, '-t 2')
 #m3 = svm_train(train_data_target, train_data_features, '-t 2 -v 10')
-p_labels, p_acc, p_vals = svm_predict(test_Y, test_X,m3)
+p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X,m3)
 
 #sigmoid
 m4 = svm_train(train_Y, train_X, '-t 3')
-p_labels, p_acc, p_vals = svm_predict(test_Y, test_X,m4)
+p_labels, p_acc, p_vals = svm_predict([0]*len(test_X), test_X,m4)
 
 '''
 #Linear SVC
