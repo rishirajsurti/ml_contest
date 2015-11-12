@@ -107,7 +107,7 @@ p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m)
 #polynomial
 m2 = svm_train(train_Y, train_X_n, '-t 1')
 #m2 = svm_train(train_data_target, train_data_features, '-t 1 -v 10') #cross validation
-p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n,m2)
+p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m2)
 #90.649% (2598/2866) (classification)
 
 #radial/gaussian
@@ -121,7 +121,7 @@ p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m4)
 
 
 #%% write to file
-f=open('svm_rs_output_sigmoid.csv','w');
+f=open('svm_rs_output_polynomial.csv','w');
 for i in xrange(len(p_labels)):
     f.write(str(int(p_labels[i])));
     f.write("\n");
