@@ -13,4 +13,5 @@ for n_neighbors in range(5, 11):
     clf.fit(trainData[:, :-1], trainData[:, -1])
     labelsPredicted = clf.predict(testData[:, :-1])
     print "%d : %f" % (n_neighbors, accuracy_score(testData[:, -1], labelsPredicted))
+    
 
