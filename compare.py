@@ -7,7 +7,7 @@ Created on Sun Nov  1 20:40:38 2015
 #%%
 import os
 import glob
-import numpy 
+import numpy as np
 import scipy
 import csv
 from sklearn.metrics import accuracy_score
@@ -17,16 +17,19 @@ os.chdir('/home/rishiraj/cs5011/contest/ml_contest/');
 def most_common(lst):
     return max(set(lst), key=lst.count);
     
-files = ['svm/svm_rs_output_gaussian.csv','svm/svm_rs_output_gaussian.csv','svm/svm_rs_output_polynomial.csv', 'svm/svm_rs_output_sigmoid.csv', 'bayes/bayes_rs_output_bernoulli.csv', 'bayes/bayes_rs_output_multinomial.csv'] # add your files here;
+files = ['svm/svm_rs_output_gaussian.csv','svm/svm_rs_output_gaussian.csv',
+         'svm/svm_rs_output_polynomial.csv', 'svm/svm_rs_output_sigmoid.csv', 
+         'bayes/bayes_rs_output_bernoulli.csv', 'bayes/bayes_rs_output_multinomial.csv',
+         'knn/7nn_output_rv.csv','lda/lda_output_rv.csv'] # add your files here;
 #,'svm/svm_rs_output_polynomial.csv',
 
 #'lda/lda_rv_output.csv',
 
-test_X=[]
-for line in open('../test_X.csv').readlines():
-    test_X.append(map(float,line.strip().split(",")));
+test_Y=[]
+for line in open('test_Y_ref.csv').readlines():
+    test_Y.append(map(float,line.strip().split(",")));
     
-final = np.zeros(len(test_X));
+final = np.zeros(len(test_Y));
 outputs=[];
 
 for i in xrange(len(files)):
@@ -42,7 +45,7 @@ for i in xrange(len(final)):
     final[i] = most_common(op); # need more files
     
 
-#accuracy_score(test_Y, final)
+accuracy_score(test_Y, final)
 #0.91660851360781581
 
 #%% write to file

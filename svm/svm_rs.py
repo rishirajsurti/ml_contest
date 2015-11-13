@@ -111,7 +111,7 @@ p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m2)
 #90.649% (2598/2866) (classification)
 
 #radial/gaussian
-m3 = svm_train(train_Y, train_X_n, '-t 2')
+m3 = svm_train(train_Y, train_X_n, '-s 4 -t 2 -d 5 -r 0.001 -e 0.01')
 #m3 = svm_train(train_data_target, train_data_features, '-t 2 -v 10')
 p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m3)
 
