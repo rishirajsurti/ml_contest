@@ -1,0 +1,5 @@
+* 	In data_split.R change train_data_X.csv, and all the other 3 files to have
+values separated by commas. After that make changes in all folders, where these 
+files have been accessed
+
+* 	paths where Rishiraj/Home/Desktop/... have to be removed

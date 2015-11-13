@@ -2,7 +2,7 @@
 # This file takes the following files as input:
 # train_data_X.csv, train_data_Y.csv, test_data_X.csv, test_data_Y.csv
 # and generates the following files as output:
-# trainData.csv, testData.csv
+# trainData.arff, testData.arff
 
 """
 Created on Sun Nov  8 13:04:29 2015
@@ -11,7 +11,7 @@ Created on Sun Nov  8 13:04:29 2015
 """
 
 from numpy import *
-from sys import argv
+# from sys import argv
 
 print 'Loading train data and train labels...'
 f = open('../trainData.arff', 'w');
@@ -29,13 +29,13 @@ for i in range(1,2049):
     f.write("\n");
 
 f.write("@attribute class{"),
-for i in range(1,100):
+for i in range(0, 99):
     f.write(str(i)+", "),
 
-f.write(str(100));
+f.write(str(99));
 f.write("}\n\n");
 f.write("@data\n");
-savetxt(f, trainData)
+savetxt(f, trainData);
 f.close();
 
 print 'Loading test data and test labels...'
@@ -54,11 +54,11 @@ for i in range(1,2049):
     f.write("\n");
 
 f.write("@attribute class{"),
-for i in range(1,100):
+for i in range(0, 99):
     f.write(str(i)+", "),
 
-f.write(str(100));
+f.write(str(99));
 f.write("}\n\n");
 f.write("@data\n");
-savetxt(f, testData)
+savetxt(f, testData);
 f.close();

@@ -1,24 +1,43 @@
 # coding: utf-8
 from sklearn.lda import LDA
-from numpy import *
+import numpy as np
 from sklearn.metrics import accuracy_score
 
-trainData = loadtxt('../../trainData.csv', delimiter=',', skiprows=1)
-testData = loadtxt('../../testData.csv', delimiter=',',skiprows=1)
+print 'Loading train data...'
+X = np.loadtxt('../../train_X.csv', delimiter=',')
+y = np.loadtxt('../../train_Y.csv', dtype=int, delimiter=',')
+# X = np.loadtxt('../../train_data_X.csv', delimiter=' ')
+# y = np.loadtxt('../../train_data_Y.csv', dtype=int, delimiter=' ')
 
-clf = LDA(n_components=2048)
-clf.fit(trainData[:,:-1], trainData[:,-1])
+print 'Normalising train data...'
+for i in range(len(X.T)):
+	mean = np.mean(X[:, i])
+	if mean != 0:
+		variance = np.mean((X[:, i] - mean)**2)
+		X[:, i] = (X[:, i] - mean)/np.sqrt(variance)
 
-labelsPredicted = clf.predict(testData[:,:-1])
-acc = accuracy_score(testData[:, -1], labelsPredicted)
+print 'Loading test data...'
+testData_X = np.loadtxt('../../test_X.csv', delimiter=',')
+# testData_X = np.loadtxt('../../test_data_X.csv', delimiter=' ')
 
-print acc
-# 0.783 is the accuracy score
+print 'Normalising test data...'
+for i in range(len(testData_X.T)):
+	mean = np.mean(testData_X[:, i])
+	if mean != 0:
+		variance = np.mean((testData_X[:, i] - mean)**2)
+		testData_X[:, i] = (testData_X[:, i] - mean)/np.sqrt(variance)
 
-f=open('lda_rv_output.csv', 'w')
+# testData_Y = np.loadtxt('../../test_data_Y.csv', dtype=int, delimiter=' ')
 
-for i in xrange(len(labelsPredicted)):
-    f.write(str(labelsPredicted[i]));
-    f.write("\n");
+print 'Performing classification using LDA...'
+clf = LDA(n_components=testData_X.shape[1])
+clf.fit(X, y)
 
-f.close();    
+labelsPredicted = clf.predict(testData_X)
+
+# print accuracy_score(testData_Y, labelsPredicted)
+# 1.0 is the accuracy score
+
+np.savetxt("lda_output_rv.csv", labelsPredicted, fmt="%.0f", delimiter='\n')
+
+print 'Done'
