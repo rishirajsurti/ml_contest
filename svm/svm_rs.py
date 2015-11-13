@@ -59,12 +59,12 @@ for line in open('../../train_Y.csv').readlines():
 test_X=[]
 for line in open('../../test_X.csv').readlines():
     test_X.append(map(float,line.strip().split(",")));
-'''
+
 test_Y=[]
-for line in open('../../test_data_Y.csv').readlines():
+for line in open('../test_Y.csv').readlines():
     test_Y.append(map(float,line.strip().split(" "))[0]);
 ## data acquired     
-'''
+
 #%% normalize the features
 # zero mean, unit variance
 #train_data_features_n = train_data_features;
