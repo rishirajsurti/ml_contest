@@ -19,46 +19,43 @@ from sklearn.cross_validation import KFold
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import accuracy_score
 mydata=[]
-with open('train1_X.csv', 'rb') as f:
-    c=csv.reader(f, delimiter=' ', quotechar=' ')
+with open('train_X.csv', 'rb') as f:
+    c=csv.reader(f, delimiter=',', quotechar=' ')
     for row in c:
         mydata.append(map(float,row))  
 
 x_=np.array(mydata) 
 
 mydata=[]
-with open('train1_Y.csv', 'rb') as f:
-    c=csv.reader(f, delimiter=' ', quotechar=' ')
+with open('train_Y.csv', 'rb') as f:
+    c=csv.reader(f, delimiter=',', quotechar=' ')
     for row in c:
         mydata.append(map(float,row))  
 
 y_=np.array(mydata) 
 
 mydata=[]
-with open('test_data_X.csv', 'rb') as f:
-    c=csv.reader(f, delimiter=' ', quotechar=' ')
+with open('test_X.csv', 'rb') as f:
+    c=csv.reader(f, delimiter=',', quotechar=' ')
     for row in c:
         mydata.append(map(float,row))  
 
-x_test=np.array(mydata) 
-
-mydata=[]
-with open('test_data_Y.csv', 'rb') as f:
-    c=csv.reader(f, delimiter=' ', quotechar=' ')
-    for row in c:
-        mydata.append(map(float,row)) 
- 
-y_test=np.array(mydata) 
-
-
-
+x_t=np.array(mydata) 
 
 x_train = preprocessing.scale(x_)
 rows = len(y_)
-y_train = preprocessing.scale(y_)
-
+#y_train = preprocessing.scale(y_)
+#y_train = y_
+x_test = preprocessing.scale(x_t)
 
 rows,cols = np.shape(x_train)
+
+y_train = np.zeros((rows,100))
+#print np.shape(y_train)
+for j in range(rows):
+	y_train[j][int(y_[j])]=1
+
+
 #print np.shape(x_train)
 #print np.shape(y_train)
 
@@ -101,7 +98,8 @@ testrvalue =[]
 tl2_error = []
 beta_temp = beta
 alpha_temp = alpha
-for iteration in xrange(20):
+for iteration in xrange(50):
+	print iteration+1
 	result = []
 	for i in range (rows):
 		l0 = X[i]
@@ -140,14 +138,20 @@ for i in range (trows):
 	tl1[1:] = nonlin(np.dot(tl0,alpha))
 	tl2 = nonlin(np.dot(tl1,beta))
 	tl2mat.append(tl2)
-	tl2_error.append(y_test[i]-tl2)
+	#tl2_error.append(y_test[i]-tl2)
 tl2_error = np.array(tl2_error)
 #testrvalue.append(sum(sum(tl2_error*tl2_error))/trows)
 
 tl2mat = np.array(tl2mat)
 ans = np.argmax(result,axis=1)
-yans = np.argmax(y_test,axis=1)
+#yans = np.argmax(y_test,axis=1)
 outans = np.argmax(tl2mat,axis=1)
+for x in range (len(outans)):
+	outans[x] = int(outans[x])
+
+np.savetxt("modnnout50.txt",outans)
+"""
+y_test=np.array(mydata) 
 
 tl2_error = np.array(tl2_error)
 y_test = np.array(y_test)
@@ -156,4 +160,4 @@ precision, recall, fmeasure, support=precision_recall_fscore_support(outans,yans
 
 
 print fmeasure
-
+"""
