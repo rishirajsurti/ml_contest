@@ -149,7 +149,15 @@ outans = np.argmax(tl2mat,axis=1)
 for x in range (len(outans)):
 	outans[x] = int(outans[x])
 
-np.savetxt("modnnout50.txt",outans)
+np.savetxt("modnnout50.txt",outans) ## this is not proper:
+'''
+uncomment and run this code:
+
+a = range(1,100)
+np.savetxt("gen.txt", a);
+'''
+
+
 """
 y_test=np.array(mydata) 
 

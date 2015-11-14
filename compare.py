@@ -16,19 +16,24 @@ os.chdir('/home/rishiraj/cs5011/contest/ml_contest/');
 #%%
 def most_common(lst):
     return max(set(lst), key=lst.count);
-    
+    '''
 files = ['svm/svm_rs_output_gaussian.csv','svm/svm_rs_output_gaussian.csv',
          'svm/svm_rs_output_polynomial.csv', 'svm/svm_rs_output_sigmoid.csv', 
          'bayes/bayes_rs_output_bernoulli.csv', 'bayes/bayes_rs_output_multinomial.csv',
          'knn/7nn_output_rv.csv','lda/lda_output_rv.csv'] # add your files here;
+'''
+
+files = ['nn/outputnn.txt']
 #,'svm/svm_rs_output_polynomial.csv',
 
 #'lda/lda_rv_output.csv',
 
 test_Y=[]
 for line in open('test_Y_ref.csv').readlines():
-    test_Y.append(map(float,line.strip().split(",")));
-    
+    test_Y.append(map(float,line.strip().split(","))[0]);
+
+#%%
+test_Y2 = test_Y;    
 final = np.zeros(len(test_Y));
 outputs=[];
 
@@ -45,7 +50,7 @@ for i in xrange(len(final)):
     final[i] = most_common(op); # need more files
     
 
-accuracy_score(test_Y, final)
+accuracy_score(test_Y2, final)
 #0.91660851360781581
 
 #%% write to file
