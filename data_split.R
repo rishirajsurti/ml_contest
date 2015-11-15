@@ -1,4 +1,8 @@
 require(MASS);
+require(clusterGeneration)
+require(cluster)
+require(MASS)
+require(ISLR)
 setwd('/home/rishiraj/cs5011/contest/ml_contest');
 
 data = read.csv('../train_X.csv', header=FALSE);
