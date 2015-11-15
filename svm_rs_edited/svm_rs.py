@@ -89,7 +89,6 @@ for j in xrange(2048):
         train_X_n[i][j] = (float)((train_X[i][j]-m)/(1+sd)) ;
 
 #test data
-
 test_X_n = test_X
 dummy = [];
 
@@ -103,7 +102,7 @@ for j in xrange(2048):
     for i in xrange(len(test_X)):
         test_X_n[i][j] = ((test_X[i][j]-m)/(1+sd)) ;
 
-
+# test_X_n_list = test_X_n.tolist()
 print 'Done'
 
 '''
@@ -172,14 +171,14 @@ final_labels = np.zeros(len(test_X))
 print 'Performing SVM...'
 for j in xrange(100):
     print 'Iteration %d' % (j)
-    train_Y_bin = np.zeros(len(train_Y))    
+    train_Y_bin = []
     for i in xrange(len(train_Y)):
         if(train_Y[i]==j):
-            train_Y_bin[i] = 1;
+            train_Y_bin += [1];
         else:
-            train_Y_bin[i] = -1;
+            train_Y_bin += [-1];
         
-    m3 = svm_train(train_Y_bin, train_X_n, "-t 2 -c 100")
+    m3 = svm_train(train_Y_bin, train_X_n, "-t 3 -c 10000")
     p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m3)
     
     
@@ -188,7 +187,7 @@ for j in xrange(100):
             final_labels[i] = j;
             
 #%% write to file
-f=open('svm_rs_output_gaussian_one_vs_rest_100.txt','w');
+f=open('svm_rs_output_sigmoid_one_vs_rest_10000.txt','w');
 for i in xrange(len(final_labels)):
     f.write(str(int(final_labels[i])));
     f.write("\n");
