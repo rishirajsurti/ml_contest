@@ -21,13 +21,17 @@ def ret_avg(lst):
     return int(np.mean(lst));
     
 files = ['svm/svm_rs_output_gaussian.csv',
-         'svm/svm_rs_output_polynomial.csv', 'svm/svm_rs_output_sigmoid.csv', 
-         'bayes/bayes_rs_output_bernoulli.csv', 'bayes/bayes_rs_output_multinomial.csv',
-         'knn/7nn_output_rv.csv','lda/lda_output_rv.csv',
-         'nn/nn_sp_200.txt',
+         'svm/svm_rs_output_polynomial.csv', 
+         'svm/svm_rs_output_sigmoid.csv',
          'svm/svm_rs_output_gaussian_100.txt',
          'svm/svm_rs_output_gaussian_10000.txt',
-         'svm/svm_rs_output_gaussian_sklearn.txt'
+         'svm/svm_rs_output_gaussian_sklearn.txt',
+         'svm/svm_rs_output_gaussian_sklearn_1000.txt', 
+         'bayes/bayes_rs_output_bernoulli.csv', 
+         'bayes/bayes_rs_output_multinomial.csv',
+         'knn/7nn_output_rv.csv',
+         'lda/lda_output_rv.csv',
+         'nn/nn_sp_200.txt'
          ] # add your files here;
 
 #files = ['nn/nn_sp_200.txt']

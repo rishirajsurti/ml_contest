@@ -145,7 +145,7 @@ svc_s = SVC(kernel="sigmoid");
 calc_results(svc_s);
 '''
 #gaussian
-svc_g = SVC(kernel="rbf");
+svc_g = SVC(C=1000.0,kernel="rbf");
 calc_results(svc_s);
 
 
@@ -181,7 +181,7 @@ for j in xrange(100):
             final_labels[i] = j;
         
 #%% write to file
-f=open('svm_rs_output_gaussian_sklearn.txt','w');
+f=open('svm_rs_output_gaussian_sklearn_1000.txt','w');
 for i in xrange(len(final_labels)):
     f.write(str(int(final_labels[i])));
     f.write("\n");
