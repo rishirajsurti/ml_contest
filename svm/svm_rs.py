@@ -168,7 +168,7 @@ for j in xrange(100):
         else:
             train_Y_bin[i] = -1;
         
-    m3 = svm_train(train_Y_bin, train_X_n, '-t 2 -c 10000')
+    m3 = svm_train(train_Y_bin, train_X_n, '-t 2 -c 100')
     p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m3)
     
     
@@ -177,7 +177,7 @@ for j in xrange(100):
             final_labels[i] = j;
             
 #%% write to file
-f=open('svm_rs_output_gaussian_one_vs_rest.txt','w');
+f=open('svm_rs_output_gaussian_one_vs_rest_100.txt','w');
 for i in xrange(len(final_labels)):
     f.write(str(int(final_labels[i])));
     f.write("\n");
