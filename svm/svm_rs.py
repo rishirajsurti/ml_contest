@@ -61,7 +61,7 @@ for line in open('../../test_X.csv').readlines():
     test_X.append(map(float,line.strip().split(",")));
 
 test_Y=[]
-for line in open('../test_Y.csv').readlines():
+for line in open('../test_Y_ref.csv').readlines():
     test_Y.append(map(float,line.strip().split(" "))[0]);
 ## data acquired     
 
@@ -97,6 +97,7 @@ for j in xrange(2048):
     for i in xrange(len(test_X)):
         test_X_n[i][j] = ((test_X[i][j]-m)/(1+sd)) ;
 
+'''
 #%%    
 #linear
 m = svm_train(train_Y, train_X_n, '-t 0')
@@ -111,7 +112,9 @@ p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m2)
 #90.649% (2598/2866) (classification)
 
 #radial/gaussian
-m3 = svm_train(train_Y, train_X_n, '-s 4 -t 2 -d 5 -r 0.001 -e 0.01')
+
+
+m3 = svm_train(train_Y, train_X_n, '-t 2 -c 10000')
 #m3 = svm_train(train_data_target, train_data_features, '-t 2 -v 10')
 p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m3)
 
@@ -121,12 +124,13 @@ p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m4)
 
 
 #%% write to file
-f=open('svm_rs_output_polynomial.csv','w');
+f=open('svm_rs_output_gaussian_10000.txt','w');
 for i in xrange(len(p_labels)):
     f.write(str(int(p_labels[i])));
     f.write("\n");
 f.close();
 
+'''
 '''
 #Linear SVC
 svc_l = SVC(kernel="linear")
@@ -151,3 +155,31 @@ print metrics.confusion_matrix(test_data_target, test_data_predict)
 
 evaluate_cross_validation(svc_l, train_data_features, train_data_target, 10)
 '''
+
+#%%
+train_Y_bin = np.zeros(len(train_Y))
+final_labels = np.zeros(len(test_X))
+
+for j in xrange(100):
+    train_Y_bin = np.zeros(len(train_Y))    
+    for i in xrange(len(train_Y)):
+        if(train_Y[i]==j):
+            train_Y_bin[i] = 1;
+        else:
+            train_Y_bin[i] = -1;
+        
+    m3 = svm_train(train_Y_bin, train_X_n, '-t 2 -c 10000')
+    p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m3)
+    
+    
+    for i in xrange(len(test_X)):
+        if(p_labels[i]==1):
+            final_labels[i] = j;
+            
+#%% write to file
+f=open('svm_rs_output_gaussian_one_vs_rest.txt','w');
+for i in xrange(len(final_labels)):
+    f.write(str(int(final_labels[i])));
+    f.write("\n");
+f.close();
+   
