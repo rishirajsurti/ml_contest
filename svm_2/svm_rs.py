@@ -5,10 +5,9 @@ Created on Sun Nov  1 09:40:42 2015
 @author: rishiraj
 """
 #%%
-
 import os
 import glob
-import numpy 
+import numpy as np
 import scipy
 import csv
 from matplotlib import pyplot as plt
@@ -17,15 +16,13 @@ from sklearn import metrics
 from sklearn.cross_validation import train_test_split #optional
 from sklearn.cross_validation import cross_val_score, KFold
 from scipy.stats import sem
-import numpy as np
 
 import svm
 import svmutil
 from svm import *
 from svmutil import *
 
-# os.chdir('/home/rishiraj/cs5011/contest/ml_contest/svm');
-# os.chdir('~/Desktop/contest/ml_contest/svm/');
+os.chdir('/home/rishiraj/cs5011/contest/ml_contest/svm');
 
 ##K-Fold cross validation function
 def evaluate_cross_validation(clf, data_features, data_target, K):
@@ -51,7 +48,6 @@ def calc_results(svc_):
 #note: svm_train(<class_values>, <features>)
 
 #%% Data
-print 'Loading data... '
 train_X=[]
 for line in open('../../train_X.csv').readlines():
     train_X.append(map(float,line.strip().split(",")));
@@ -67,8 +63,7 @@ for line in open('../../test_X.csv').readlines():
 test_Y=[]
 for line in open('../test_Y_ref.csv').readlines():
     test_Y.append(map(float,line.strip().split(" "))[0]);
-## data acquired
-print 'Done'
+## data acquired     
 
 #%% normalize the features
 # zero mean, unit variance
@@ -76,14 +71,13 @@ print 'Done'
 train_X_n = train_X
 dummy = [];
 
-print 'Normalizing data... '
 for j in xrange(2048):
     dummy = [];
     for i in xrange(len(train_X)):
         dummy.append(train_X[i][j]);
     
-    m = numpy.mean(dummy);
-    sd = numpy.std(dummy);
+    m = np.mean(dummy);
+    sd = np.std(dummy);
 
     for i in xrange(len(train_X)):
         train_X_n[i][j] = (float)((train_X[i][j]-m)/(1+sd)) ;
@@ -98,17 +92,14 @@ for j in xrange(2048):
     for i in xrange(len(test_X)):
         dummy.append(test_X[i][j]);
     
-    m = numpy.mean(dummy);
-    sd = numpy.std(dummy);
+    m = np.mean(dummy);
+    sd = np.std(dummy);
     for i in xrange(len(test_X)):
         test_X_n[i][j] = ((test_X[i][j]-m)/(1+sd)) ;
 
-
-print 'Done'
-
-'''
 #%%    
 #linear
+'''
 m = svm_train(train_Y, train_X_n, '-t 0')
 #m = svm_train(train_data_target, train_data_features, '-t 0 -v 5') #cross validation k=5
 #p_labels, p_acc, p_vals = svm_predict(test_Y, test_X, m)
@@ -166,30 +157,31 @@ evaluate_cross_validation(svc_l, train_data_features, train_data_target, 10)
 '''
 
 #%%
-train_Y_bin = np.zeros(len(train_Y))
-final_labels = np.zeros(len(test_X))
+train_Y_bin = [0]*len(train_Y)
+final_labels = [0]*len(test_X)
+#train_Y_bin
 
-print 'Performing SVM...'
 for j in xrange(100):
-    print 'Iteration %d' % (j)
-    train_Y_bin = np.zeros(len(train_Y))    
+    train_Y_bin = [0]*len(train_Y)    
     for i in xrange(len(train_Y)):
         if(train_Y[i]==j):
             train_Y_bin[i] = 1;
         else:
             train_Y_bin[i] = -1;
-        
-    m3 = svm_train(train_Y_bin, train_X_n, "-t 2 -c 100")
+     
+    print(train_Y_bin)
+    m3 = svm_train(train_Y_bin, train_X_n, '-t 2 -c 100 -e 1')
     p_labels, p_acc, p_vals = svm_predict([0]*len(test_X_n), test_X_n, m3)
     
     
     for i in xrange(len(test_X)):
         if(p_labels[i]==1):
             final_labels[i] = j;
-            
+        
 #%% write to file
 f=open('svm_rs_output_gaussian_one_vs_rest_100.txt','w');
 for i in xrange(len(final_labels)):
     f.write(str(int(final_labels[i])));
     f.write("\n");
 f.close();
+   
