@@ -4,6 +4,7 @@ setwd('/home/rishiraj/cs5011/contest/ml_contest');
 data = read.csv('../train_X.csv', header=FALSE);
 target = read.csv('../train_Y.csv', header=FALSE);
 
+clusplot(pam(cbind(data,target),100))
 View(head(data))
 dim(data) #14332, 2048
 View(data[,1])
