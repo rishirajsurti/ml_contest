@@ -27,6 +27,7 @@ files = ['svm/svm_rs_output_gaussian.csv',
          'svm/svm_rs_output_gaussian_10000.txt',
          'svm/svm_rs_output_gaussian_100.txt',
          'svm/svm_rs_output_gaussian_10000.txt',
+         'svm/svm_rs_output_gaussian_10000.txt',
          'svm/svm_rs_output_gaussian_sklearn.txt',
          'svm/svm_rs_output_gaussian_sklearn_1000.txt', 
          'bayes/bayes_rs_output_bernoulli.csv', 
@@ -35,6 +36,7 @@ files = ['svm/svm_rs_output_gaussian.csv',
          'lda/lda_output_rv.csv',
          'nn/nn_sp_200.txt',
          'nn/nn_sp_200.txt',
+         'svm/svm_rs_output_sigmoid_one_vs_rest_10000.txt',
          'svm/svm_rs_output_sigmoid_one_vs_rest_10000.txt',
          ] 
 # add your files here;
@@ -68,8 +70,8 @@ for i in xrange(len(final)):
     op=[];
     for j in xrange(len(outputs)):
         op.append(outputs[j][i]); #j'th file, i'th element
-    final[i] = most_common(op); # need more files
-    #final[i] = ret_avg(op);
+    #final[i] = most_common(op); # need more files
+    final[i] = ret_avg(op);
 
 accuracy_score(test_Y, final)
 #0.91660851360781581
