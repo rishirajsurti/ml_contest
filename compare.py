@@ -35,7 +35,7 @@ files = ['svm/svm_rs_output_gaussian.csv',
          'lda/lda_output_rv.csv',
          'nn/nn_sp_200.txt',
          'nn/nn_sp_200.txt',
-         'svm/svm_rs_output_sigmoid_one_vs_rest_10000.txt'
+         'svm/svm_rs_output_sigmoid_one_vs_rest_10000.txt',
          ] 
 # add your files here;
 
