@@ -1,5 +1,6 @@
 # ml_contest
-Team Name: White Walkers
+This repo is for the contest, part of CS5011 Machine Learning course at IIT-M, by Prof. B. Ravindran.  
+Team Name: White Walkers  
 Collaborators:  
 1) Rishiraj Surti  
 2) Srikanth Prabala  
